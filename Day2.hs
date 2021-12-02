@@ -14,11 +14,11 @@ instance Default Sub2 where
 data Command = Forward Int | Up Int | Down Int
 
 process :: Sub -> [Command] -> Sub
-process s = foldr execute s
+process s = foldl execute s
   where
-    execute (Up y)      s@Sub {depth = d}     = s {depth = d - y}
-    execute (Down y)    s@Sub {depth = d}     = s {depth = d + y}
-    execute (Forward x) s@Sub {distance = d}  = s {distance = d + x}
+    execute s@Sub {depth = d}    (Up y)       = s {depth = d - y}
+    execute s@Sub {depth = d}    (Down y)     = s {depth = d + y}
+    execute s@Sub {distance = d} (Forward x)  = s {distance = d + x}
 
 process2 :: Sub2 -> [Command] -> Sub2
 process2 s = foldl execute s
