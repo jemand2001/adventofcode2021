@@ -33,8 +33,6 @@ minMax = (snd <$>) . minMaxCounts
 
 gammaEpsilon :: [String] -> Pair String
 gammaEpsilon = foldr (\ l -> (<*>) ((:) <$> minMax l)) (pure [])
--- | all null l = pure ""
--- | otherwise = (:) <$> minMax (map head l) <*> gammaEpsilon (map tail l)
 
 oxygen :: [String] -> String
 oxygen [l] = l
