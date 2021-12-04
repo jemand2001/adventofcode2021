@@ -48,14 +48,11 @@ co2 ls = lc: co2 (map tail $ filter ((== lc) . head) ls)
     (P (cl, l) (cm, m)) = minMaxCounts (map head ls)
     lc = if cl == cm then '0' else l
 
-oxygenCO2 :: [String] -> Pair String
-oxygenCO2 ls = P (oxygen ls) (co2 ls)
-
 part1 :: String -> String
 part1 = (++ "\n") . show . product . (binToInt . reverse <$>) . gammaEpsilon . transpose . lines
 
 part2 :: String -> String
-part2 = (++ "\n") . show . product . (binToInt . reverse <$>) . oxygenCO2 . lines
+part2 = (++ "\n") . show . product . (binToInt . reverse <$>) . (\ls -> P (oxygen ls) (co2 ls)) . lines
 
 main :: IO ()
 main = interact part2
