@@ -15,7 +15,9 @@ mark :: String -> Board -> Board
 mark x = map (map $ \a -> if a == Just x then Nothing else a)
 
 hasWon :: Board -> Bool
-hasWon b = replicate 5 Nothing `elem` b || replicate 5 Nothing `elem` transpose b
+hasWon b = winningRow `elem` b || winningRow `elem` transpose b
+  where
+    winningRow = replicate 5 Nothing
 
 bingo :: [String] -> [Board] -> (Board, Int)
 bingo [] _ = undefined

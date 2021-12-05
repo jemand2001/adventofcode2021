@@ -4,14 +4,7 @@ import Data.Foldable
 import Data.List
 import Data.Ord
 
-data Pair a = P {first :: a, second :: a}
-instance Functor Pair where
-  fmap f (P a b) = P (f a) (f b)
-instance Applicative Pair where
-  pure x = P x x
-  P f g <*> P a b = P (f a) (g b)
-instance Foldable Pair where
-  foldr f d (P a b) = foldr f d [a, b]
+import Types (Pair(..))
 
 count :: Eq a => [a] -> a -> Int
 count l x = length $ filter (== x) l
