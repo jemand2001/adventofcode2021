@@ -5,9 +5,7 @@ import Data.List
 import Data.Ord
 
 import Types (Pair(..))
-
-count :: Eq a => [a] -> a -> Int
-count l x = length $ filter (== x) l
+import Utils (count)
 
 -- modified to work with strings, from https://stackoverflow.com/a/48438340/13321308
 binToInt :: String -> Int
