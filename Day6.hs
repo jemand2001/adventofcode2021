@@ -16,10 +16,10 @@ sumPop :: Population -> Integer
 sumPop (P a b c d e f g h i) = a + b + c + d + e + f + g + h + i
 
 part1 :: String -> String
-part1 = (++ "\n") . show . sumPop . simulate 80 . map read . wordsBy (== ',')
+part1 = evaluate readXs (sumPop . simulate 80)
 
 part2 :: String -> String
-part2 = (++ "\n") . show . sumPop . simulate 256 . map read . wordsBy (== ',')
+part2 = evaluate readXs (sumPop . simulate 256)
 
 main :: IO ()
 main = interact part2

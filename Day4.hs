@@ -6,8 +6,7 @@ import Data.Foldable (maximumBy, minimumBy)
 import Data.List
 import Data.List.Split (wordsBy)
 import Data.Ord (comparing)
-import Debug.Trace
-import Text.Read (readMaybe)
+import Utils (evaluate)
 
 type Board = [[Maybe String]]
 
@@ -29,7 +28,7 @@ bingo (x : xs) boards
 
 bingo2 :: [String] -> [Board] -> (Board, Int)
 bingo2 [] _ = undefined
-bingo2 (x:xs) [b]
+bingo2 (x : xs) [b]
   | hasWon b' = (b', read x)
   | otherwise = bingo2 xs [b']
   where
@@ -52,10 +51,10 @@ parseBoards (l : "" : ls) = (wordsBy (',' ==) l, parseBoards' ls)
 parseBoards _ = undefined
 
 part1 :: String -> String
-part1 = (++ "\n") . show . (\(b, x) -> x * score b) . uncurry bingo . parseBoards . lines
+part1 = evaluate (parseBoards . lines) ((\(b, x) -> x * score b) . uncurry bingo)
 
 part2 :: String -> String
-part2 = (++ "\n") . show . (\(b, x) -> x * score b) . uncurry bingo2 . parseBoards . lines
+part2 = evaluate (parseBoards . lines) ((\(b, x) -> x * score b) . uncurry bingo2)
 
 main :: IO ()
 main = interact part2

@@ -1,10 +1,9 @@
 module Main where
 
-import Data.List
-import Data.Ord
 import Data.List.Split (wordsBy)
 import qualified Data.Map.Strict as M
 import Types (Pair (..), fromList)
+import Utils
 
 type Point = Pair Int
 
@@ -38,10 +37,10 @@ parseLine s = parseLine' $ words s
     parsePoint s = read <$> fromList (wordsBy (== ',') s)
 
 part1 :: String -> String
-part1 = (++ "\n") . show . length . filter ((> 1) . snd) . M.toList . populate . map parseLine . lines
+part1 = evaluate (map parseLine . lines) (length . filter ((> 1) . snd) . M.toList . populate)
 
 part2 :: String -> String
-part2 = (++ "\n") . show . length . filter ((> 1) . snd) . M.toList . populate' . map parseLine . lines
+part2 = evaluate (map parseLine . lines) (length . filter ((> 1) . snd) . M.toList . populate)
 
 diagnostic :: String -> String
 diagnostic = (++ "\n") . show . (\xs -> P (minimum $ map first xs, maximum $ map first xs) (minimum $ map second xs, maximum $ map second xs)) . map fst . M.toList . populate' . map parseLine . lines

@@ -5,7 +5,7 @@ import Data.List
 import Data.Ord
 
 import Types (Pair(..))
-import Utils (count)
+import Utils (count, evaluate)
 
 -- modified to work with strings, from https://stackoverflow.com/a/48438340/13321308
 binToInt :: String -> Int
@@ -40,10 +40,10 @@ co2 ls = lc: co2 (map tail $ filter ((== lc) . head) ls)
     lc = if cl == cm then '0' else l
 
 part1 :: String -> String
-part1 = (++ "\n") . show . product . (binToInt . reverse <$>) . gammaEpsilon . transpose . lines
+part1 = evaluate (transpose . lines) (product . (binToInt . reverse <$>) . gammaEpsilon)
 
 part2 :: String -> String
-part2 = (++ "\n") . show . product . (binToInt . reverse <$>) . (\ls -> P (oxygen ls) (co2 ls)) . lines
+part2 = evaluate lines (product . (binToInt . reverse <$>) . (\ls -> P (oxygen ls) (co2 ls)))
 
 main :: IO ()
 main = interact part2

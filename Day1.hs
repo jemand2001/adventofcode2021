@@ -1,5 +1,7 @@
 module Main where
 
+import Utils
+
 pairwise :: [a] -> [(a, a)]
 pairwise xs = zip xs $ tail xs
 
@@ -12,10 +14,10 @@ sumTriples [] = []
 sumTriples l@(_:xs) = sum (take 3 l) : sumTriples xs
 
 part1 :: String -> String
-part1 = (++ "\n") . show . countIncreases . pairwise . map read . lines
+part1 = evaluate readXs (countIncreases . pairwise)
 
 part2 :: String -> String
-part2 = (++ "\n") . show . countIncreases . pairwise . sumTriples . map read . lines
+part2 = evaluate readXs (countIncreases . pairwise . sumTriples)
 
 main :: IO ()
 main = interact part2

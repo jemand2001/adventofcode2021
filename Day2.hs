@@ -28,10 +28,10 @@ process2 s = foldl execute s
     execute s@(Sub2 de di a) (Forward x) = s {distance2 = di + x, depth2 = de + (x * a)}
 
 part1 :: String -> String
-part1 = (++ "\n") . show . (\(Sub x y) -> x * y) . process def . map (parseCmd . words) . lines
+part1 = evaluate (map (parseCmd . words) . lines) ((\(Sub x y) -> x * y) . process def)
 
 part2 :: String -> String
-part2 = (++ "\n") . show . (\(Sub2 x y _) -> x * y) . process2 def . map (parseCmd . words) . lines
+part2 = evaluate (map (parseCmd . words) . lines) ((\(Sub2 x y _) -> x * y) . process2 def)
 
 parseCmd :: [String] -> Command
 parseCmd ["forward", x] = Forward $ read x
