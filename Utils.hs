@@ -12,3 +12,9 @@ evaluate' parse f toString = toString . f . parse
 
 readXs :: (Read a) => String -> [a]
 readXs = map read . wordsBy (== ',')
+
+lookupBy :: (a -> Bool) -> [a] -> Maybe a
+lookupBy _ [] = Nothing
+lookupBy f (x:xs)
+  | f x = Just x
+  | otherwise = lookupBy f xs
