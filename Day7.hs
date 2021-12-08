@@ -1,6 +1,7 @@
 module Main where
 
 import Data.List
+import Data.List.Split
 import Data.Ord
 import Utils
 
@@ -21,5 +22,8 @@ part1 = evaluate readXs align
 part2 :: String -> String
 part2 = evaluate readXs align'
 
+golf1 :: String -> String
+golf1 = (++"\n").show.(\l->(l::[Int])!!(length l`div`2)).sort.map read.wordsBy(==',')
+
 main :: IO ()
-main = interact part2
+main = interact golf1
