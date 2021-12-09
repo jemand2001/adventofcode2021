@@ -21,6 +21,14 @@ instance (Semigroup a) => Semigroup (Pair a) where
 instance (Monoid a) => Monoid (Pair a) where
   mempty = P mempty mempty
 
+instance (Num a) => Num (Pair a) where
+  P a b + P c d = P (a + c) (b + d)
+  P a b * P c d = P (a * c) (b * d)
+  abs (P a b) = P (abs a) (abs b)
+  signum (P a b) = P (signum a) (signum b)
+  fromInteger x = P (fromInteger x) (fromInteger x)
+  negate (P a b) = P (negate a) (negate b)
+
 fromList :: [a] -> Pair a
 fromList [a, b] = P a b
 fromList _ = undefined
