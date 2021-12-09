@@ -1,11 +1,11 @@
 # Advent of Code 2021 solutions
 
-This repository holds my solutions for (Advent of Code)[https://adventofcode.com] 2021.
+This repository holds my solutions for [Advent of Code](https://adventofcode.com) 2021.
 They are all written entirely in Haskell.
 
 ## To use
 
-The included (Makefile)[./Makefile] contains targets to build Haskell files as well as run the resulting binaries
+The included [Makefile](./Makefile) contains targets to build Haskell files as well as run the resulting binaries
 using the example inputs and the personal inputs.
 
 (in the following snippets, replace `$DAY` with the number of the day you want to run)
