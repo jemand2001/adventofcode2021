@@ -1,6 +1,10 @@
 module Types where
 
+import Control.Applicative
+
 data Pair a = P {first :: a, second :: a} deriving (Ord, Eq)
+
+newtype Grid a = G [[a]] deriving Eq
 
 instance Functor Pair where
   fmap f (P a b) = P (f a) (f b)
@@ -29,6 +33,36 @@ instance (Num a) => Num (Pair a) where
   fromInteger x = P (fromInteger x) (fromInteger x)
   negate (P a b) = P (negate a) (negate b)
 
+instance (Num a) => Num (Grid a) where
+  (+) = liftA2 (+)
+  (*) = liftA2 (*)
+  abs = fmap abs
+  signum = fmap signum
+  fromInteger = pure . fromInteger
+  negate = fmap negate
+
+instance Foldable Grid where
+  foldr f d (G l) = foldr f d $ concat l
+
+instance Functor Grid where
+  fmap f (G l) = G $ map (map f) l
+
+instance Applicative Grid where
+  pure x = G [[x]]
+  liftA2 f (G xss) (G yss) = G (zipWith (zipWith f) xss yss)
+
 fromList :: [a] -> Pair a
 fromList [a, b] = P a b
 fromList _ = undefined
+
+withDimensions :: a -> Grid b -> Grid a
+withDimensions x (G xss) = G [[x | _ <- [1 .. length $ head xss]] | _ <- [1 .. length xss]]
+
+set :: Pair Int -> a -> Grid a -> Grid a
+set (P x y) v (G l) = G [[if x == x' && y == y' then v else v' | (x', v') <- zip [0 ..] row] | (y', row) <- zip [0 ..] l]
+
+withCoordinates :: Grid a -> [(Pair Int, a)]
+withCoordinates (G xss) = concat [[(P x y, v) | (x, v) <- zip [0 ..] row] | (y, row) <- zip [0 ..] xss]
+
+coordinates :: Grid a -> [Pair Int]
+coordinates = map fst . withCoordinates
