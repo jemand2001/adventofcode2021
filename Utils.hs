@@ -41,3 +41,12 @@ findAll p = map fst . filter (p . snd) . withCoordinates
 
 dimensions :: Grid a -> Pair Int
 dimensions (G l) = P (length $ head l) $ length l
+
+countsBy :: (a -> a -> Bool) -> [a] -> [Int]
+countsBy f xs = map (\x -> countBy (f x) xs) xs
+
+counts :: Eq a => [a] -> [Int]
+counts = countsBy (==)
+
+minMax :: Ord a => [a] -> Pair a
+minMax xs = P (minimum xs) (maximum xs)
