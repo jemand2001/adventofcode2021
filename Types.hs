@@ -51,6 +51,9 @@ instance Applicative Grid where
   pure x = G [[x]]
   liftA2 f (G xss) (G yss) = G (zipWith (zipWith f) xss yss)
 
+instance Show a => Show (Grid a) where
+  show (G xss) = unlines $ map (unwords . map show) xss
+
 fromList :: [a] -> Pair a
 fromList [a, b] = P a b
 fromList _ = undefined
@@ -66,3 +69,9 @@ withCoordinates (G xss) = concat [[(P x y, v) | (x, v) <- zip [0 ..] row] | (y, 
 
 coordinates :: Grid a -> [Pair Int]
 coordinates = map fst . withCoordinates
+
+appendX :: Grid a -> Grid a -> Grid a
+appendX (G g1) (G g2) = G $ zipWith (++) g1 g2
+
+appendY :: Grid a -> Grid a -> Grid a
+appendY (G g1) (G g2) = G $ g1 ++ g2
