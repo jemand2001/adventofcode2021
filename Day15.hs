@@ -1,7 +1,7 @@
 module Main where
 
 import Data.Maybe
-import qualified Data.PQueue.Min as Q
+import qualified Data.PQueue.Prio.Min as Q
 import qualified Data.Map as M
 import Utils
 import Types
@@ -37,9 +37,6 @@ instance Num InfInt where
   signum Infinity = 1
   fromInteger = X . fromInteger
 
-instance Foldable Q.MinQueue where
-  foldr = Q.foldrU
-
 instance Ord InfInt where
   _ <= Infinity = True
   Infinity <= _ = False
@@ -66,19 +63,19 @@ reconstruct prev target
     target' = fromJust p
 
 dijkstra :: Point -> Point -> Grid Int -> [Point]
-dijkstra start goal grid = dijkstra' (M.insert start 0 $ M.fromList $ zip points $ repeat Infinity) (Q.singleton $ PW 0 start) M.empty
+dijkstra start goal grid = dijkstra' (M.insert start 0 $ M.fromList $ zip points $ repeat Infinity) (Q.singleton 0 start) M.empty
   where
     size = first $ dimensions grid
     points = coordinates grid
-    dijkstra' :: Scores -> Q.MinQueue (PrioWrapper Point) -> M.Map Point Point -> [Point]
+    dijkstra' :: Scores -> Q.MinPQueue InfInt Point -> M.Map Point Point -> [Point]
     dijkstra' dist q prev
       | Q.null q || current == goal = reconstruct prev goal
       | otherwise = dijkstra' dist' q' prev'
       where
-        (PW _ current, q'') = Q.deleteFindMin q
+        ((_, current), q'') = Q.deleteFindMin q
         (dist', prev', q') = foldr replaceMaybe (dist, prev, q'') $ neighbors current size
         replaceMaybe v t@(d, p, q)
-          | alt < fromMaybe Infinity (M.lookup v dist) = (M.insert v alt d, M.insert v current p, Q.insert (PW alt v) q)
+          | alt < fromMaybe Infinity (M.lookup v dist) = (M.insert v alt d, M.insert v current p, Q.insert alt v q)
           | otherwise = t
           where
             alt = fromJust (M.lookup current dist) + fromIntegral (grid `at` v)
