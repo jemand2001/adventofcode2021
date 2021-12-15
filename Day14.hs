@@ -41,19 +41,24 @@ pairInsert rules = M.foldrWithKey insertPair M.empty
     insertPair p@(P a b) c = addKeys' [P a middle, P middle b] c
       where
         middle = fromJust $ M.lookup p rules
-      
 
 runSimulation :: Int -> String -> String
-runSimulation count = evaluate parse (\(f, l, counts, rules) -> (\(P a b) -> (b `div` 2) - (a `div` 2)) $ minMaxCounts f l $ foldr (const $ pairInsert rules) counts [1..count])
+runSimulation count = evaluate parse (\(f, l, counts, rules) -> getDiff $ minMaxCounts f l $ foldr (const $ pairInsert rules) counts [1..count])
   where
     parse = (\(x : [] : rules) -> (head x, last x, countPairs x, M.fromList $ map parseRule rules)) . lines
+    getDiff (P a b) = (b `div` 2) - (a `div` 2)
+
+diagnostics :: Int -> String -> String
+diagnostics count = evaluate parse (\(f, l, counts, rules) -> minMaxCounts f l $ foldr (const $ pairInsert rules) counts [1 .. count])
+  where
+    parse = (\(x : [] : rules) -> (head x, last x, countPairs x, M.fromList $ map parseRule rules)) . lines
+    getDiff (P a b) = (b `div` 2) - (a `div` 2)
 
 part1 :: String -> String
 part1 = runSimulation 10
 
 part2 :: String -> String
--- part2 s = concatMap (`runSimulation` s) [1..1000]
 part2 = runSimulation 40
 
 main :: IO ()
-main = interact part2
+main = interact $ diagnostics 40
