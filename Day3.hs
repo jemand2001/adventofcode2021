@@ -5,15 +5,7 @@ import Data.List
 import Data.Ord
 
 import Types (Pair(..))
-import Utils (count, evaluate)
-
--- modified to work with strings, from https://stackoverflow.com/a/48438340/13321308
-binToInt :: String -> Int
-binToInt = foldr (\x y -> fromChar x + 2 * y) 0
-  where
-    fromChar '0' = 0
-    fromChar '1' = 1
-    fromChar _ = undefined
+import Utils (count, evaluate, binToInt)
 
 minMaxCounts :: Eq a => [a] -> Pair (Int, a)
 minMaxCounts l = P (minimumBy (comparing fst) l') (maximumBy (comparing fst) l')
