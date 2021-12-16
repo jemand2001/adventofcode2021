@@ -2,6 +2,7 @@ module Utils where
 import Data.List.Split (wordsBy)
 
 import Types
+import Debug.Trace
 
 count :: (Eq a, Foldable t) => t a -> a -> Int
 count xs x = countBy (== x) xs
@@ -53,7 +54,7 @@ minMax xs = P (minimum xs) (maximum xs)
 
 -- modified to work with strings, from https://stackoverflow.com/a/48438340/13321308
 binToInt :: String -> Int
-binToInt = foldr (\x y -> fromChar x + 2 * y) 0
+binToInt = foldr (\x y -> fromChar x + 2 * y) 0 . reverse
   where
     fromChar '0' = 0
     fromChar '1' = 1

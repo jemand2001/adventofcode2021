@@ -32,10 +32,10 @@ co2 ls = lc: co2 (map tail $ filter ((== lc) . head) ls)
     lc = if cl == cm then '0' else l
 
 part1 :: String -> String
-part1 = evaluate (transpose . lines) (product . (binToInt . reverse <$>) . gammaEpsilon)
+part1 = evaluate (transpose . lines) (product . (binToInt <$>) . gammaEpsilon)
 
 part2 :: String -> String
-part2 = evaluate lines (product . (binToInt . reverse <$>) . (\ls -> P (oxygen ls) (co2 ls)))
+part2 = evaluate lines (product . (binToInt <$>) . (\ls -> P (oxygen ls) (co2 ls)))
 
 main :: IO ()
 main = interact part2
