@@ -4,12 +4,11 @@ import Data.Maybe
 import qualified Data.PQueue.Prio.Min as Q
 import qualified Data.Map as M
 import Utils
-import Types
+import Types hiding (inside)
 import Data.Foldable
 import Data.Ord
 import Debug.Trace
 
-type Point = Pair Int
 type Scores = M.Map Point InfInt
 
 data PrioWrapper a = PW InfInt a deriving Show

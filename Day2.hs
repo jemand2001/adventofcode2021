@@ -1,7 +1,7 @@
 module Main where
 
 import Data.Default
-import Data.Foldable
+import Utils
 
 data Sub = Sub {depth :: Int, distance :: Int}
 instance Default Sub where
