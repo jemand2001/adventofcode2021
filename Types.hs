@@ -4,6 +4,9 @@ import Control.Applicative
 
 data Pair a = P {first :: a, second :: a} deriving (Ord, Eq)
 
+type Point = Pair Int
+type Area = Pair Point
+
 newtype Grid a = G [[a]] deriving Eq
 
 instance Functor Pair where
@@ -75,3 +78,6 @@ appendX (G g1) (G g2) = G $ zipWith (++) g1 g2
 
 appendY :: Grid a -> Grid a -> Grid a
 appendY (G g1) (G g2) = G $ g1 ++ g2
+
+inside :: Point -> Area -> Bool
+inside (P x y) (P (P minX minY) (P maxX maxY)) = x >= minX && x <= maxX && y >= minY && y <= maxY
