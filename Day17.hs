@@ -11,6 +11,8 @@ minX, maxX, minY, maxY :: Int
 (minX, maxX, minY, maxY) = (56, 76, -162,-134)
 -- (minX, maxX, minY, maxY) = (20, 30, -10, -5)
 
+velocities = [P x y | x <- [0 .. maxX], y <- [minY .. 400]]
+
 target :: Area
 target = P (P minX minY) (P maxX maxY)
 
@@ -26,8 +28,8 @@ simulate p@(P x y) v@(P dx dy)
       | otherwise = 0
 
 -- part1 :: [Int]
-part1 = maximum $ map (maximum . map second) $ mapMaybe (simulate $ P 0 0) [P x y | x <- [0..76], y <- [-162..400]]
-part2 = length $ mapMaybe (simulate $ P 0 0) [P x y | x <- [0 .. 76], y <- [-162 .. 400]]
+part1 = maximum $ map (maximum . map second) $ mapMaybe (simulate $ P 0 0) velocities
+part2 = length $ mapMaybe (simulate $ P 0 0) velocities
 
 main :: IO ()
 main = print part2
