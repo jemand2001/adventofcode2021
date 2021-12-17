@@ -59,3 +59,6 @@ binToInt = foldr (\x y -> fromChar x + 2 * y) 0 . reverse
     fromChar '0' = 0
     fromChar '1' = 1
     fromChar _ = undefined
+
+tsnoc :: a -> b -> b
+tsnoc _ x = x
