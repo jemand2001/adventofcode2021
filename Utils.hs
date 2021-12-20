@@ -10,6 +10,9 @@ count xs x = countBy (== x) xs
 countBy :: Foldable t => (a -> Bool) -> t a -> Int
 countBy p = foldr (\x c -> if p x then c+1 else c) 0
 
+countTrue :: Foldable t => t Bool -> Int
+countTrue = countBy id
+
 evaluate :: (Show a) => (String -> b) -> (b -> a) -> String -> String
 evaluate parse f = evaluate' parse f ((++ "\n") . show)
 
