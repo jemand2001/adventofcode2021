@@ -31,10 +31,10 @@ def enhance(alg : str, image: Union[List[str], Board]) -> Board:
             y_range = range(-1, len(image) + 1)
     else:
         max_x, max_y, image_ = image
-        default = get_cell(image_[(-1, -1)] * 9, alg)
+        default = get_cell(image_.default_factory() * 9, alg)
         img = defaultdict(lambda: default, image_)
-        x_range = range(-1, max_x + 1)
-        y_range = range(-1, max_y + 1)
+        x_range = range(-1, max_x + 2)
+        y_range = range(-1, max_y + 2)
     out = defaultdict(lambda: default)
     for y in y_range:
         for x in x_range:
